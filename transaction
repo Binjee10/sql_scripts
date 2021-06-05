@@ -1,0 +1,142 @@
+/* 1. Making a transaction which changes a million or more rows of data.  */
+DROP PROCEDURE IF EXISTS generate_address ;
+DELIMITER $$
+
+CREATE PROCEDURE generate_address()
+
+BEGIN
+
+  DECLARE i INT DEFAULT 0;
+
+  WHILE i <= 10000 DO
+
+  INSERT INTO 𝑎𝑑𝑑𝑟𝑒𝑠𝑠(b_address, s_address)
+VALUES ("6024 Aptent Street","Ap #437-2479 Curae; Avenue"),("P.O. Box 925, 7885 Adipiscing St.","P.O. Box 752, 1179 Quam Rd."),("9559 Ultricies Road","3765 Auctor Road"),("Ap #257-1449 Nunc, Rd.","229-7580 Quam Avenue"),("423-7936 Vivamus Ave","P.O. Box 134, 5456 Ut Rd."),("Ap #173-7151 Congue. Ave","530-9045 Elementum Av."),("941-2822 Urna Street","6398 In Rd."),("662-4871 Fermentum Av.","Ap #193-5248 Nisi Road"),("P.O. Box 366, 9431 Proin Road","Ap #607-6610 Sem. St."),("P.O. Box 834, 6882 Vestibulum Street","P.O. Box 932, 3913 Ante Street"),("892 Erat Street","P.O. Box 928, 2424 Mi Rd."),("7747 Phasellus Rd.","Ap #675-3888 Cum Rd."),("Ap #716-623 Ac, St.","Ap #218-3544 A, Avenue"),("Ap #376-1554 Ullamcorper, St.","8121 Sapien, St."),("P.O. Box 300, 226 Nec Road","Ap #619-7554 Phasellus Av."),("Ap #829-7735 Lorem St.","8192 Maecenas St."),("188-9960 Dolor Rd.","Ap #981-1813 Et, St."),("645 Nonummy Rd.","768-7311 Non Avenue"),("845-2227 Ultrices St.","4485 Ligula. Street"),("P.O. Box 954, 7807 In Avenue","2545 At Rd."),("278-5051 Augue Road","663-6701 Mauris Rd."),("2575 Sed, St.","1836 Donec Avenue"),("Ap #441-1254 Cras St.","Ap #122-793 Nunc Ave"),("Ap #556-6312 Nec Ave","Ap #387-542 Interdum. Street"),("Ap #400-9454 Magna. Av.","Ap #204-3531 Nulla St."),("Ap #424-9839 Ac, St.","9626 Nonummy Ave"),("553-6721 Ac Street","1287 Aliquam Rd."),("196-2400 Scelerisque Av.","P.O. Box 289, 2199 Leo. Rd."),("8446 Eleifend. Street","951-7537 Nunc St."),("8118 Nisl. Rd.","921 Nunc. Street"),("973-6193 Malesuada Street","Ap #593-836 Placerat Av."),("P.O. Box 144, 1806 Non Rd.","343-9106 Neque St."),("P.O. Box 579, 7275 Penatibus Av.","8732 Hendrerit. Avenue"),("873-8551 Posuere St.","515-9674 Amet St."),("P.O. Box 538, 6603 Malesuada Rd.","2077 Risus Road"),("Ap #320-5345 Viverra. Rd.","8813 Interdum Avenue"),("P.O. Box 889, 752 Enim, Avenue","Ap #238-5665 Dolor. Avenue"),("254-5173 Ac Av.","1845 Cursus Rd."),("Ap #127-7379 Rhoncus. Av.","P.O. Box 313, 8316 Nunc Rd."),("P.O. Box 270, 9331 Ipsum Av.","P.O. Box 389, 3891 Vestibulum. St."),("293-7621 Nullam Rd.","2988 Quis Av."),("782-3225 Turpis Avenue","P.O. Box 759, 5473 Enim. St."),("8230 Aliquet Avenue","6257 Libero. Rd."),("506-7821 Nullam Av.","P.O. Box 875, 8584 Consectetuer St."),("Ap #397-6453 Pretium Avenue","3853 Nulla. Ave"),("P.O. Box 761, 5480 Arcu. Rd.","P.O. Box 198, 3007 Eros St."),("3162 Sem Ave","910-5011 Non, Street"),("Ap #743-1420 Placerat. St.","5640 Arcu Rd."),("5342 Adipiscing, St.","Ap #536-6331 Mollis Av."),("415-2389 Cursus St.","2944 Ante Ave"),("P.O. Box 886, 3528 Erat, Avenue","P.O. Box 974, 7103 Quam. Avenue"),("Ap #656-6077 Donec Rd.","Ap #485-2970 Ante Road"),("P.O. Box 957, 1919 Purus Av.","Ap #906-3338 Erat, Rd."),("Ap #999-8730 Phasellus Road","P.O. Box 528, 2220 Enim Street"),("Ap #865-8032 Nunc Street","274-9230 Sed Ave"),("Ap #288-7214 Aliquet Rd.","Ap #573-6308 Elit. Ave"),("Ap #480-1352 Velit Rd.","104-4099 Ad St."),("4312 Lorem St.","603-4985 Vel, Street"),("106-2564 In Ave","Ap #435-2379 Sit Street"),("Ap #943-4051 Vitae Rd.","8389 Fringilla Ave"),("561-9501 Turpis Rd.","754-1573 Vitae Av."),("632-7300 Elit Av.","P.O. Box 865, 2354 Non Av."),("774-5346 Sit Road","501-4209 Nibh. Avenue"),("9382 Eu Road","754-4243 Orci Av."),("P.O. Box 281, 2952 At Rd.","903-1592 Cursus St."),("Ap #554-4102 Ornare. Road","624-1678 Eu Ave"),("P.O. Box 572, 8225 Ac Street","P.O. Box 920, 3195 Enim. Road"),("Ap #853-1741 Nunc St.","Ap #724-8573 Imperdiet Ave"),("P.O. Box 331, 2053 Sem, Avenue","550-9369 Mauris Rd."),("Ap #285-2208 Morbi Road","440-8821 Faucibus Avenue"),("725-8352 In, Rd.","347-5542 Ullamcorper. St."),("969-897 Purus Rd.","Ap #202-1246 Dictum Road"),("7991 Hendrerit Av.","231-1239 Felis Road"),("729-8153 Mauris Rd.","8876 Lorem Rd."),("P.O. Box 364, 3245 Mauris Av.","P.O. Box 741, 2234 Donec St."),("330-9653 Ut Ave","393-6656 Enim Avenue"),("P.O. Box 496, 6542 Euismod Street","3329 Nisi Road"),("Ap #627-7315 Pellentesque St.","604-2235 Vulputate Road"),("849-4791 In Street","778-7768 Tellus. Street"),("Ap #976-4769 Sodales Road","946-5604 Imperdiet Rd."),("P.O. Box 911, 5452 Dui, Rd.","209-5519 Eu, Avenue"),("705-3888 A, Ave","882-9443 Nec St."),("P.O. Box 749, 173 Vitae, Road","9284 Lorem, Ave"),("1087 In Rd.","P.O. Box 304, 6183 Suspendisse St."),("Ap #618-8035 Dolor. Av.","2660 Cursus Avenue"),("P.O. Box 887, 3746 Varius St.","891-4790 Libero St."),("P.O. Box 896, 4126 At Avenue","9540 Aenean Rd."),("399-8556 Quam St.","566 Nulla St."),("P.O. Box 946, 5798 Nunc St.","Ap #416-601 A Avenue"),("530-3833 Est. Road","156-5210 Consequat Avenue"),("Ap #698-5821 Proin St.","P.O. Box 617, 2524 Scelerisque Av."),("1534 Phasellus Ave","993-6716 Lacus. Rd."),("P.O. Box 925, 9482 Nascetur Rd.","4468 Nulla. Avenue"),("4840 Turpis Road","405-6334 Enim. Rd."),("775-9014 Tellus. Ave","P.O. Box 953, 7332 Donec Av."),("Ap #874-1218 Nec, St.","P.O. Box 695, 4499 Tellus St."),("1427 Fermentum Street","258-6955 Penatibus Rd."),("758-9270 Mi St.","Ap #955-6562 Sed, Avenue"),("P.O. Box 397, 5033 Sed Av.","P.O. Box 832, 1245 Sapien. Road"),("450-1101 Ullamcorper Av.","3647 Leo. Rd.");
+
+  SET i = i + 1;
+
+  END WHILE;
+
+END$$
+
+DELIMITER ;
+
+
+/* (1.a) In one case, rolling back without commit the changes */
+
+START TRANSACTION;
+CALL generate_address;
+rollback;
+
+OUTPUT: MySQL returned an empty result set (i.e. zero rows). (Query took 0.0002 seconds.)
+START TRANSACTION
+  
+ 
+OUTPUT: MySQL returned an empty result set (i.e. zero rows). (Query took 7.7453 seconds.)
+CALL generate_address
+  
+
+OURPUR: MySQL returned an empty result set (i.e. zero rows). (Query took 11.9401 seconds.)  
+rollback
+
+
+/* (1.b) In one case, commiting the changes */
+USE brai1;
+START TRANSACTION;
+CALL generate_address;
+COMMIT;
+
+OUTPUT:
+ MySQL returned an empty result set (i.e. zero rows). (Query took 0.0003 seconds.)
+ MySQL returned an empty result set (i.e. zero rows). (Query took 7.8082 seconds.)
+ MySQL returned an empty result set (i.e. zero rows). (Query took 0.0080 seconds.)
+
+/* (1.c) In another case, alter the table, then change some data in one row, then rollback the transaction. */
+
+ALTER TABLE address 
+ADD COLUMN phone_number VARCHAR(15) AFTER s_address;
+DESCRIBE address;
+
+OUTPUT:
+MySQL returned an empty result set (i.e. zero rows). (Query took 5.1015 seconds.)
+Your SQL query has been executed successfully.
+
+address_id	bigint(20) unsigned	NO	PRI	
+    NULL
+	auto_increment	
+b_address	varchar(255)	NO		
+    NULL
+		
+s_address	varchar(255)	NO		
+    NULL
+		
+phone_number	varchar(15)	YES		
+    NULL
+
+
+
+/* .....Changing some data, then rolling back.........*/
+
+START TRANSACTION;
+INSERT INTO address(s_address, b_address, phone_number)
+VALUES('4443  Better Street, OCEAN CITY, MD 21842', '4443  Better Street, OCEAN CITY, MD 21842', '913-317-0864');
+SELECT * FROM address ORDER BY address_id DESC LIMIT 10;
+ROLLBACK;
+SELECT * FROM address ORDER BY address_id DESC LIMIT 10;
+/* Rollback worked, the new inserted row is shown before rollback but not after. */
+
+OUTPUT:
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0003 seconds.)
+ MySQL returned an empty result set (i.e. zero rows). (Query took 0.0002 seconds.)
+1 row inserted.
+Inserted row id: 3000301 (Query took 0.0006 seconds.)
+ Showing rows 0 - 9 (10 total, Query took 0.0004 seconds.) [address_id: 3000301... - 3000292...]
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0016 seconds.)	
+  Showing rows 0 - 9 (10 total, Query took 0.0004 seconds.) [address_id: 3000300... - 3000291...]
+
+
+/* 2. Making a transaction which alters data (inserts, deletes updates) in more than one table.  Alter one of the tables, then try to roll back the transaction. */
+
+START TRANSACTION;
+
+DELETE FROM users
+WHERE user_id=1;
+
+DELETE FROM address
+WHERE address_id=1;
+
+OUTPUT:
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0002 seconds.)
+1 row affected. (Query took 0.0015 seconds.)
+0 rows affected. (Query took 0.0003 seconds.)
+
+
+DELETE FROM users
+WHERE user_id=1;
+ROLLBACK;
+
+OUTPUT:
+1 row affected. (Query took 0.0081 seconds.)
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0002 seconds.)
+
+
+/* 3. Making one function or procedure which implements changes in a transaction.  Perhaps update one of your previous once and make it more effective using transactions. */
+
+use brai1;
+DROP PROCEDURE IF EXISTS shipping_req;
+DELIMITER $$
+CREATE PROCEDURE shipping_req()
+BEGIN
+	DECLARE free_shipping ENUM('yes','no');  
+    SELECT amount,if(amount > 50,'yes','no') AS free_shipping from
+    orders;
+END$$
+DELIMITER ;
+
+OUTOUT:
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0007 seconds.)
+
+
+START TRANSACTION;
+CALL shipping_req;
+commit;
