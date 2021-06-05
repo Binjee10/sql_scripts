@@ -1,0 +1,71 @@
+# the following example XML we might have for an ecommerce system:
+------------------------------------------------------------------
+<shiporder orderid="889923"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="shiporder.xsd">
+  <orderperson>John Smith</orderperson>
+  <shipto>
+    <name>Ola Nordmann</name>
+    <address>Langgt 23</address>
+    <city>4000 Stavanger</city>
+    <country>Norway</country>
+  </shipto>
+  <item>
+    <title>Empire Burlesque</title>
+    <note>Special Edition</note>
+    <quantity>1</quantity>
+    <price>10.90</price>
+  </item>
+  <item>
+    <title>Hide your heart</title>
+    <quantity>1</quantity>
+    <price>9.90</price>
+  </item>
+</shiporder>
+-------------------------------------------------------------------
+
+/* 1. Creating a procedure which extracts the "shipto" name for any shipments going to the country "norway" (or "Norway"--should be case insensitive) */
+
+DELIMITER |
+
+CREATE PROCEDURE proc_xml ()
+
+BEGIN
+
+            SET @xml = '<shiporder> <orderperson>John Smith</orderperson> <shipto> <name>Ola Nordmann</name> <address>Langgt 23</address> <city>4000 Stavanger</city> <country>Norway</country> </shipto> <item> <title>Empire Burlesque</title> <note>Special Edition</note> <quantity>1</quantity> <price>10.90</price> </item> <item> <title>Hide your heart</title> <quantity>1</quantity> <price>9.90</price> </item> </shiporder>';
+
+ 
+
+    SET @country = ExtractValue(@xml, '//country');
+
+     IF LOWER(@country) = 'norway' THEN
+
+            SELECT ExtractValue(@xml, '//name') AS result;
+
+     END IF;
+
+END |
+
+DELIMETER ;
+
+ 
+CALL proc_xml;
+
+/* 2. Extracting titles for any "special edition" books in the order */
+
+SET @xml =  '<shiporder> <orderperson>John Smith</orderperson> <shipto> <name>Ola Nordmann</name> <address>Langgt 23</address> <city>4000 Stavanger</city> <country>Norway</country> </shipto> <item> <title>Empire Burlesque</title> <note>Special Edition</note> <quantity>1</quantity> <price>10.90</price> </item> <item> <title>Hide your heart</title> <quantity>1</quantity> <price>9.90</price> </item> </shiporder>';
+
+SELECT ExtractValue(@xml, '/shiporder/item[note = "Special Edition"]/title') AS title;
+
+
+/* 3. Producing a sum total of the cost of all items in an order */
+
+set @xml = '<shiporder> <orderperson>John Smith</orderperson> <shipto> <name>Ola Nordmann</name> <address>Langgt 23</address> <city>4000 Stavanger</city> <country>Norway</country> </shipto> <item> <title>Empire Burlesque</title> <note>Special Edition</note> <quantity>1</quantity> <price>10.90</price> </item> <item> <title>Hide your heart</title> <quantity>1</quantity> <price>9.90</price> </item> </shiporder>';
+
+set @val1 = (ExtractValue(@xml, 'fn:sum(/shiporder/item/price)'));
+
+SELECT @val1 AS total_amount;
+
+
+ 
+
