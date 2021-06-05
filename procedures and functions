@@ -1,0 +1,123 @@
+
+
+DROP TABLE IF EXISTS work_3;
+
+/* Using a table with 2 columns, one primary key with auto-index and the other a numerical data type.  */
+
+CREATE TABLE work_3(
+
+    client_number TINYINT PRIMARY KEY AUTO_INCREMENT,
+
+    sales INT);
+
+ 
+
+/* Inserting values into table */
+
+INSERT INTO work_3(sales)
+
+VALUES(400),(500);
+
+#Query OK, MySQL returned an empty result set (i.e. zero rows). (Query took 0.0002 seconds.)
+#Query OK, MySQL returned an empty result set (i.e. zero rows). (Query took 0.0065 seconds.)
+#Query OK, MySQL returned an empty result set (i.e. zero rows). (Query took 0.0175 seconds.)
+#Query OK, 2 rows inserted.
+#Inserted row id: 2 (Query took 0.0020 seconds.)
+
+ 
+
+/* Creating stored procedure that adds two rows and gives the value on third row */
+
+DROP PROCEDURE IF EXISTS GetCustomerSales;
+DELIMITER $$
+CREATE PROCEDURE GetCustomerSales(
+
+IN  sales_amount INT(25),
+
+IN client_no INT
+
+)
+
+BEGIN
+
+    INSERT into work3 (sales) SELECT SUM(sales) from work3 WHERE client_number=1 OR client_number=2;
+END$$
+DELIMITER ;
+
+CALL GetCustomerSales(@sales,@client_number)
+
+SELECT * FROM homework_3;
+
+ OUTPUT: 
+
+== Table structure for table homework_3
+
+ 
+
+|------
+
+|Column|Type|Null|Default
+
+|------
+
+|//**client_number**//|tinyint(4)|No|
+
+|sales|int(11)|Yes|NULL
+
+== Dumping data for table work_3
+
+ 
+
+|1|400
+
+|2|500
+
+|3|900
+
+ 
+/* Creating stored function that adds two rows and gives the value on third row */
+
+ 
+
+DROP FUNCTION IF EXISTS Customer_Sales;
+
+DELIMITER $$
+
+ 
+
+CREATE FUNCTION Customer_Sales(
+
+sales_amt INT, client_no TINYINT
+
+) 
+
+RETURNS INT
+
+ 
+
+BEGIN
+
+INSERT into work3 (sales) SELECT SUM(sales) from work3
+WHERE client_number IS NOT NULL;
+RETURN SUM(sales);
+
+END$$
+
+DELIMITER ;
+
+ 
+
+ MySQL returned an empty result set (i.e. zero rows). (Query took 0.0003 seconds.)
+
+ MySQL returned an empty result set (i.e. zero rows). (Query took 0.0008 seconds.)
+
+ 
+
+SELECT Customer_Sales(@sales,@client_number)
+
+FROM homework_3;
+ 
+
+/* I created a procedure because  Functions can only return one variable; stored procedures can return more than one variable. 
+
+The parameters of stored procedure can be IN, OUT and INOUT, while the function can only have IN class ~~stored procedure declaration without return type, while the function declaration needs to describe return type, and the function body must contain a valid RETURN statement. Stored procedures, powerful, can perform a series of database operations including table modification; user-defined functions can not be used to perform a set of operations to modify the state of the global database. */
