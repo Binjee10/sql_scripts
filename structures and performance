@@ -1,0 +1,290 @@
+# SELECT performance is partly related to the volume of data, but more relative to joins and index hits.
+
+CREATE TABLE users(
+
+   user_id int(10) unsigned NOT NULL AUTO_INCREMENT,
+   email varchar(55) DEFAULT NULL,
+   fname varchar(55) NOT NULL,
+   nickname varchar(55) NULL,
+   pswd blob,
+
+    PRIMARY KEY (user)
+    UNIQUE KEY email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ CREATE TABLE address(
+
+   address_id BIGINT    UNSIGNED NOT NULL AUTO_INCREMENT,
+   b_address VARCHAR(255) NOT NULL,
+   s_address VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (address_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ 
+CREATE TABLE orders(
+
+      order_id BIGINT    UNSIGNED NOT NULL AUTO_INCREMENT,
+      date_received DATE NOT NULL,
+      amount INT,
+      PRIMARY KEY (order_id)
+
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ 
+
+/* Creating a linking table user_address */
+
+ 
+
+DROP TABLE IF EXISTS user_address;
+
+CREATE TABLE user_address(
+
+    user_id INT(10) UNSIGNED NOT NULL,
+
+    address_id SMALLINT UNSIGNED NOT NULL,
+
+    order_id SMALLINT UNSIGNED NOT NULL,
+
+    PRIMARY KEY(user_id, address_id),
+
+    KEY idx_fk_userid(user),
+
+    KEY idx_fk_addressid (address),
+
+    CONSTRAINT fk_user_address1 FOREIGN KEY (user_id)  REFERENCES users (user_id) 
+
+    ON DELETE CASCADE ON UPDATE CASCADE,
+
+    CONSTRAINT fk_user_address2 FOREIGN KEY (address_id) REFERENCES address (address_id)
+
+    ON DELETE CASCADE ON UPDATE CASCADE,
+
+    CONSTRAINT fk_user_address3 FOREIGN KEY (order_id)  REFERENCES orders (order_id) 
+
+    ON DELETE CASCADE ON UPDATE CASCADE
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ 
+
+ 
+
+/* Populating users table */  
+
+ 
+
+DROP PROCEDURE IF EXISTS generate_users;
+
+ 
+
+DELIMITER $$
+
+CREATE PROCEDURE generate_users()
+
+BEGIN
+
+  DECLARE i INT DEFAULT 0;
+
+  WHILE i <= 10000 DO
+
+  INSERT INTO users (email, fname, nickname, pswd ) VALUES (CONCAT(MD5(UUID()),'@test.fr'),"Dennis","Theodore","VMS78HAD0UO"),(CONCAT(MD5(UUID()),'@test.fr'),"Levi","Griffith","UUQ14VGV6EF"),(CONCAT(MD5(UUID()),'@test.fr'),"Hammett","Hamilton","GLZ62YSF2PL"),(CONCAT(MD5(UUID()),'@test.fr'),"Ivor","Herman","EMT44LCB6TW"),(CONCAT(MD5(UUID()),'@test.fr'),"Cain","Dara","BOS08DGW1YF"),(CONCAT(MD5(UUID()),'@test.fr'),"Keaton","Clark","EGD02SUR8NT"),(CONCAT(MD5(UUID()),'@test.fr'),"Melodie","Raphael","CEI69ZOQ7FO"),(CONCAT(MD5(UUID()),'@test.fr'),"Lacota","Upton","LSO53FEI7JV"),(CONCAT(MD5(UUID()),'@test.fr'),"Ryan","Malachi","ZGA02WJQ4AU"),(CONCAT(MD5(UUID()),'@test.fr'),"Yuli","Eric","YEI54QGT0FZ"),(CONCAT(MD5(UUID()),'@test.fr'),"Gregory","Clayton","HHD46LXL9VO"),(CONCAT(MD5(UUID()),'@test.fr'),"Martina","Rae","JHX08NVP7DQ"),(CONCAT(MD5(UUID()),'@test.fr'),"Jana","Genevieve","CUA23CCC2US"),(CONCAT(MD5(UUID()),'@test.fr'),"Reese","Galena","OCP13PWF8OP"),(CONCAT(MD5(UUID()),'@test.fr'),"Tobias","Jonah","BMA91ZTD5CN"),(CONCAT(MD5(UUID()),'@test.fr'),"Emma","Sybil","HVR48CWN7XW"),(CONCAT(MD5(UUID()),'@test.fr'),"Adena","Lunea","NBU49WNF4YG"),(CONCAT(MD5(UUID()),'@test.fr'),"Zeph","Lila","FYX39LZG3NY"),(CONCAT(MD5(UUID()),'@test.fr'),"Samuel","Kessie","AHO03BOW9TF"),(CONCAT(MD5(UUID()),'@test.fr'),"Kasper","Chaney","LNB70STZ0QN"),(CONCAT(MD5(UUID()),'@test.fr'),"Peter","Xena","SKD66UVG4SC"),(CONCAT(MD5(UUID()),'@test.fr'),"Hoyt","Catherine","MPS40JIH4XQ"),(CONCAT(MD5(UUID()),'@test.fr'),"Xerxes","Lillith","EMR79BLH1PO"),(CONCAT(MD5(UUID()),'@test.fr'),"Byron","Kareem","RNR91PUL1WO"),(CONCAT(MD5(UUID()),'@test.fr'),"Germane","Karyn","LNF89DZB4LS"),(CONCAT(MD5(UUID()),'@test.fr'),"Lysandra","Kimberly","EST17MOV2PK"),(CONCAT(MD5(UUID()),'@test.fr'),"Christine","Kaitlin","GXA56VDV4VO"),(CONCAT(MD5(UUID()),'@test.fr'),"Madonna","Leilani","VVV12UBK0VY"),(CONCAT(MD5(UUID()),'@test.fr'),"Zeus","Howard","ZQY37DKX4UK"),(CONCAT(MD5(UUID()),'@test.fr'),"Stephen","Hammett","TEG09JIG4CO"),(CONCAT(MD5(UUID()),'@test.fr'),"Teegan","Nayda","STA23MBI1CA"),(CONCAT(MD5(UUID()),'@test.fr'),"Mohammad","Lance","NCA80FRH7NC"),(CONCAT(MD5(UUID()),'@test.fr'),"Clio","Kessie","KMQ57ZZC2FI"),(CONCAT(MD5(UUID()),'@test.fr'),"Morgan","Leroy","SCH42GKY8AS"),(CONCAT(MD5(UUID()),'@test.fr'),"Frances","Myra","CGX82FKM8JD"),(CONCAT(MD5(UUID()),'@test.fr'),"Ori","Nigel","PEH57DZD5WY"),(CONCAT(MD5(UUID()),'@test.fr'),"Kim","Kameko","LWL59TNU5DC"),(CONCAT(MD5(UUID()),'@test.fr'),"Arden","Quynn","HYV45BYZ1AA"),(CONCAT(MD5(UUID()),'@test.fr'),"Doris","Oleg","FEJ97BOL8UO"),(CONCAT(MD5(UUID()),'@test.fr'),"Marsden","Ruby","IBM55THB2IZ"),(CONCAT(MD5(UUID()),'@test.fr'),"Alfonso","Keefe","GYS93TYD6WP"),(CONCAT(MD5(UUID()),'@test.fr'),"Andrew","Alexa","SXC98MRI7BC"),(CONCAT(MD5(UUID()),'@test.fr'),"Davis","Damon","KEY95LAC8IH"),(CONCAT(MD5(UUID()),'@test.fr'),"Jaquelyn","Kadeem","XMB80WSS3IN"),(CONCAT(MD5(UUID()),'@test.fr'),"Gail","Alea","CTV53WER0NT"),(CONCAT(MD5(UUID()),'@test.fr'),"Patricia","Dillon","OHL68BKR2FG"),(CONCAT(MD5(UUID()),'@test.fr'),"Patience","Jenette","PWN45XJY3IB"),(CONCAT(MD5(UUID()),'@test.fr'),"Leigh","Tucker","KLT80AVF9ZL"),(CONCAT(MD5(UUID()),'@test.fr'),"Sylvester","Glenna","XDV46GQS8HE"),(CONCAT(MD5(UUID()),'@test.fr'),"Reese","Donovan","NCR57JID7PW"),(CONCAT(MD5(UUID()),'@test.fr'),"Maite","Ashely","VBI80EGR7XT"),(CONCAT(MD5(UUID()),'@test.fr'),"Erich","Tad","PYO09YHD9VJ"),(CONCAT(MD5(UUID()),'@test.fr'),"Tamara","Madeson","QVP75QGG8GE"),(CONCAT(MD5(UUID()),'@test.fr'),"Halee","Molly","SYP12ORQ5WF"),(CONCAT(MD5(UUID()),'@test.fr'),"Kuame","Cyrus","MRD24WLB4VJ"),(CONCAT(MD5(UUID()),'@test.fr'),"Eaton","Garrett","UDA50IQC2GG"),(CONCAT(MD5(UUID()),'@test.fr'),"Pamela","Ross","XTW42QDW7BF"),(CONCAT(MD5(UUID()),'@test.fr'),"Justine","Joseph","HZJ29GLT8HE"),(CONCAT(MD5(UUID()),'@test.fr'),"Noble","Carl","SNR35ACR9TU"),(CONCAT(MD5(UUID()),'@test.fr'),"Chaim","Hashim","RBR67RTC8TT"),(CONCAT(MD5(UUID()),'@test.fr'),"Idona","Roary","DJU11DFY7JH"),(CONCAT(MD5(UUID()),'@test.fr'),"Emi","Orla","WTF51POA0RO"),(CONCAT(MD5(UUID()),'@test.fr'),"Steel","Montana","PXH89UOQ9VZ"),(CONCAT(MD5(UUID()),'@test.fr'),"Elvis","Anthony","FOC67MGM4YJ"),(CONCAT(MD5(UUID()),'@test.fr'),"Fuller","Olivia","GVU55MYU9PC"),(CONCAT(MD5(UUID()),'@test.fr'),"Bevis","Charde","NDO46DVF9HT"),(CONCAT(MD5(UUID()),'@test.fr'),"Destiny","Erasmus","IRR78GRK4WH"),(CONCAT(MD5(UUID()),'@test.fr'),"Britanney","Jesse","PFV92ZBA2ZG"),(CONCAT(MD5(UUID()),'@test.fr'),"Hiram","Igor","ERR89QIH1DC"),(CONCAT(MD5(UUID()),'@test.fr'),"Clark","Xantha","JGG62IOM3NY"),(CONCAT(MD5(UUID()),'@test.fr'),"Brandon","Teegan","MQU76SNG7ZG"),(CONCAT(MD5(UUID()),'@test.fr'),"Maya","Curran","KRV20FHH6BT"),(CONCAT(MD5(UUID()),'@test.fr'),"Asher","Mason","CRM27JFH9CQ"),(CONCAT(MD5(UUID()),'@test.fr'),"Freya","Ebony","XLK91BEF5ES"),(CONCAT(MD5(UUID()),'@test.fr'),"Audra","Tallulah","QGX99JPN1JT"),(CONCAT(MD5(UUID()),'@test.fr'),"Joseph","Aquila","SEL95OIO4HD"),(CONCAT(MD5(UUID()),'@test.fr'),"Thomas","Ahmed","RMK05NPU9DN"),(CONCAT(MD5(UUID()),'@test.fr'),"Chanda","Melvin","UNA81JUJ0ML"),(CONCAT(MD5(UUID()),'@test.fr'),"John","Elmo","SDA06FUO8DO"),(CONCAT(MD5(UUID()),'@test.fr'),"Adara","Simone","GDF29SNL4AB"),(CONCAT(MD5(UUID()),'@test.fr'),"Flynn","Gabriel","PVR82CAW9YI"),(CONCAT(MD5(UUID()),'@test.fr'),"Rae","Sara","UQI51ZFC0BW"),(CONCAT(MD5(UUID()),'@test.fr'),"Craig","Jenette","XZK62GIF2TI"),(CONCAT(MD5(UUID()),'@test.fr'),"Martena","Carissa","GBR61FSM8GQ"),(CONCAT(MD5(UUID()),'@test.fr'),"Owen","Peter","BDJ31YPA8BS"),(CONCAT(MD5(UUID()),'@test.fr'),"Ayanna","Yolanda","UZK50QID7OV"),(CONCAT(MD5(UUID()),'@test.fr'),"Chester","Nicholas","LRV95JAP6HN"),(CONCAT(MD5(UUID()),'@test.fr'),"Samson","Oliver","FGC60FMM2KZ"),(CONCAT(MD5(UUID()),'@test.fr'),"Cheyenne","Devin","VYJ13CKA4IP"),(CONCAT(MD5(UUID()),'@test.fr'),"George","Berk","PRN32GHH3VG"),(CONCAT(MD5(UUID()),'@test.fr'),"Reed","Audrey","FNZ75QTU0EI"),(CONCAT(MD5(UUID()),'@test.fr'),"Hilary","Selma","MMB66KDA3SQ"),(CONCAT(MD5(UUID()),'@test.fr'),"Jaden","Macon","LHE87XGY8VT"),(CONCAT(MD5(UUID()),'@test.fr'),"Jonah","Arsenio","TQO36DGF2RB"),(CONCAT(MD5(UUID()),'@test.fr'),"Alfonso","Whilemina","THC94NJA7AL"),(CONCAT(MD5(UUID()),'@test.fr'),"Dahlia","Clarke","VCF77UFD5XX"),(CONCAT(MD5(UUID()),'@test.fr'),"Hall","Samson","PSR48UUE1VY"),(CONCAT(MD5(UUID()),'@test.fr'),"Steven","Kermit","VTE85ICI6ME"),(CONCAT(MD5(UUID()),'@test.fr'),"Brent","Zorita","ZKS13AYO2HZ"),(CONCAT(MD5(UUID()),'@test.fr'),"Gretchen","Lani","JPG36QZR2WN");
+
+SET i = i + 1;
+
+  END WHILE;
+
+END$$
+
+DELIMITER ;
+
+ 
+CALL generate_users();
+
+ 
+/* Populating address table */
+
+ 
+
+DROP PROCEDURE IF EXISTS generate_address ;
+
+ 
+
+DELIMITER $$
+
+CREATE PROCEDURE generate_address()
+
+BEGIN
+
+  DECLARE i INT DEFAULT 0;
+
+  WHILE i <= 10000 DO
+
+  INSERT INTO address(b_address, s_address) VALUES ("6024 Aptent Street","Ap #437-2479 Curae; Avenue"),("P.O. Box 925, 7885 Adipiscing St.","P.O. Box 752, 1179 Quam Rd."),("9559 Ultricies Road","3765 Auctor Road"),("Ap #257-1449 Nunc, Rd.","229-7580 Quam Avenue"),("423-7936 Vivamus Ave","P.O. Box 134, 5456 Ut Rd."),("Ap #173-7151 Congue. Ave","530-9045 Elementum Av."),("941-2822 Urna Street","6398 In Rd."),("662-4871 Fermentum Av.","Ap #193-5248 Nisi Road"),("P.O. Box 366, 9431 Proin Road","Ap #607-6610 Sem. St."),("P.O. Box 834, 6882 Vestibulum Street","P.O. Box 932, 3913 Ante Street"),("892 Erat Street","P.O. Box 928, 2424 Mi Rd."),("7747 Phasellus Rd.","Ap #675-3888 Cum Rd."),("Ap #716-623 Ac, St.","Ap #218-3544 A, Avenue"),("Ap #376-1554 Ullamcorper, St.","8121 Sapien, St."),("P.O. Box 300, 226 Nec Road","Ap #619-7554 Phasellus Av."),("Ap #829-7735 Lorem St.","8192 Maecenas St."),("188-9960 Dolor Rd.","Ap #981-1813 Et, St."),("645 Nonummy Rd.","768-7311 Non Avenue"),("845-2227 Ultrices St.","4485 Ligula. Street"),("P.O. Box 954, 7807 In Avenue","2545 At Rd."),("278-5051 Augue Road","663-6701 Mauris Rd."),("2575 Sed, St.","1836 Donec Avenue"),("Ap #441-1254 Cras St.","Ap #122-793 Nunc Ave"),("Ap #556-6312 Nec Ave","Ap #387-542 Interdum. Street"),("Ap #400-9454 Magna. Av.","Ap #204-3531 Nulla St."),("Ap #424-9839 Ac, St.","9626 Nonummy Ave"),("553-6721 Ac Street","1287 Aliquam Rd."),("196-2400 Scelerisque Av.","P.O. Box 289, 2199 Leo. Rd."),("8446 Eleifend. Street","951-7537 Nunc St."),("8118 Nisl. Rd.","921 Nunc. Street"),("973-6193 Malesuada Street","Ap #593-836 Placerat Av."),("P.O. Box 144, 1806 Non Rd.","343-9106 Neque St."),("P.O. Box 579, 7275 Penatibus Av.","8732 Hendrerit. Avenue"),("873-8551 Posuere St.","515-9674 Amet St."),("P.O. Box 538, 6603 Malesuada Rd.","2077 Risus Road"),("Ap #320-5345 Viverra. Rd.","8813 Interdum Avenue"),("P.O. Box 889, 752 Enim, Avenue","Ap #238-5665 Dolor. Avenue"),("254-5173 Ac Av.","1845 Cursus Rd."),("Ap #127-7379 Rhoncus. Av.","P.O. Box 313, 8316 Nunc Rd."),("P.O. Box 270, 9331 Ipsum Av.","P.O. Box 389, 3891 Vestibulum. St."),("293-7621 Nullam Rd.","2988 Quis Av."),("782-3225 Turpis Avenue","P.O. Box 759, 5473 Enim. St."),("8230 Aliquet Avenue","6257 Libero. Rd."),("506-7821 Nullam Av.","P.O. Box 875, 8584 Consectetuer St."),("Ap #397-6453 Pretium Avenue","3853 Nulla. Ave"),("P.O. Box 761, 5480 Arcu. Rd.","P.O. Box 198, 3007 Eros St."),("3162 Sem Ave","910-5011 Non, Street"),("Ap #743-1420 Placerat. St.","5640 Arcu Rd."),("5342 Adipiscing, St.","Ap #536-6331 Mollis Av."),("415-2389 Cursus St.","2944 Ante Ave"),("P.O. Box 886, 3528 Erat, Avenue","P.O. Box 974, 7103 Quam. Avenue"),("Ap #656-6077 Donec Rd.","Ap #485-2970 Ante Road"),("P.O. Box 957, 1919 Purus Av.","Ap #906-3338 Erat, Rd."),("Ap #999-8730 Phasellus Road","P.O. Box 528, 2220 Enim Street"),("Ap #865-8032 Nunc Street","274-9230 Sed Ave"),("Ap #288-7214 Aliquet Rd.","Ap #573-6308 Elit. Ave"),("Ap #480-1352 Velit Rd.","104-4099 Ad St."),("4312 Lorem St.","603-4985 Vel, Street"),("106-2564 In Ave","Ap #435-2379 Sit Street"),("Ap #943-4051 Vitae Rd.","8389 Fringilla Ave"),("561-9501 Turpis Rd.","754-1573 Vitae Av."),("632-7300 Elit Av.","P.O. Box 865, 2354 Non Av."),("774-5346 Sit Road","501-4209 Nibh. Avenue"),("9382 Eu Road","754-4243 Orci Av."),("P.O. Box 281, 2952 At Rd.","903-1592 Cursus St."),("Ap #554-4102 Ornare. Road","624-1678 Eu Ave"),("P.O. Box 572, 8225 Ac Street","P.O. Box 920, 3195 Enim. Road"),("Ap #853-1741 Nunc St.","Ap #724-8573 Imperdiet Ave"),("P.O. Box 331, 2053 Sem, Avenue","550-9369 Mauris Rd."),("Ap #285-2208 Morbi Road","440-8821 Faucibus Avenue"),("725-8352 In, Rd.","347-5542 Ullamcorper. St."),("969-897 Purus Rd.","Ap #202-1246 Dictum Road"),("7991 Hendrerit Av.","231-1239 Felis Road"),("729-8153 Mauris Rd.","8876 Lorem Rd."),("P.O. Box 364, 3245 Mauris Av.","P.O. Box 741, 2234 Donec St."),("330-9653 Ut Ave","393-6656 Enim Avenue"),("P.O. Box 496, 6542 Euismod Street","3329 Nisi Road"),("Ap #627-7315 Pellentesque St.","604-2235 Vulputate Road"),("849-4791 In Street","778-7768 Tellus. Street"),("Ap #976-4769 Sodales Road","946-5604 Imperdiet Rd."),("P.O. Box 911, 5452 Dui, Rd.","209-5519 Eu, Avenue"),("705-3888 A, Ave","882-9443 Nec St."),("P.O. Box 749, 173 Vitae, Road","9284 Lorem, Ave"),("1087 In Rd.","P.O. Box 304, 6183 Suspendisse St."),("Ap #618-8035 Dolor. Av.","2660 Cursus Avenue"),("P.O. Box 887, 3746 Varius St.","891-4790 Libero St."),("P.O. Box 896, 4126 At Avenue","9540 Aenean Rd."),("399-8556 Quam St.","566 Nulla St."),("P.O. Box 946, 5798 Nunc St.","Ap #416-601 A Avenue"),("530-3833 Est. Road","156-5210 Consequat Avenue"),("Ap #698-5821 Proin St.","P.O. Box 617, 2524 Scelerisque Av."),("1534 Phasellus Ave","993-6716 Lacus. Rd."),("P.O. Box 925, 9482 Nascetur Rd.","4468 Nulla. Avenue"),("4840 Turpis Road","405-6334 Enim. Rd."),("775-9014 Tellus. Ave","P.O. Box 953, 7332 Donec Av."),("Ap #874-1218 Nec, St.","P.O. Box 695, 4499 Tellus St."),("1427 Fermentum Street","258-6955 Penatibus Rd."),("758-9270 Mi St.","Ap #955-6562 Sed, Avenue"),("P.O. Box 397, 5033 Sed Av.","P.O. Box 832, 1245 Sapien. Road"),("450-1101 Ullamcorper Av.","3647 Leo. Rd.");
+
+  SET i = i + 1;
+
+  END WHILE;
+
+END$$
+
+DELIMITER ;
+
+ 
+
+CALL generate_address(); 
+
+ 
+
+ 
+
+/* Populate table orders */
+
+ 
+
+DROP PROCEDURE IF EXISTS generate_orders ;
+
+ 
+
+DELIMITER $$
+
+CREATE PROCEDURE generate_orders()
+
+BEGIN
+
+  DECLARE i INT DEFAULT 0;
+
+  WHILE i < =10000 DO
+
+  INSERT INTO orders(date_received) VALUES ("2020-07-21 03:15:07"),("2020-06-28 10:49:19"),("2020-03-31 22:29:53"),("2020-08-19 12:04:29"),("2020-11-22 11:50:16"),("2020-04-13 01:39:40"),("2020-05-22 13:43:55"),("2020-07-26 04:45:39"),("2021-01-26 11:46:00"),("2020-08-06 23:28:58"),("2021-01-24 00:31:50"),("2021-03-14 23:17:20"),("2020-10-27 01:21:06"),("2020-07-14 07:25:14"),("2021-02-01 21:45:33"),("2020-12-02 12:11:48"),("2020-09-15 17:19:52"),("2020-08-06 14:29:06"),("2020-07-30 10:40:27"),("2020-03-25 03:06:40"),("2020-04-09 07:10:56"),("2020-11-01 10:16:44"),("2020-09-28 18:49:22"),("2020-12-01 00:37:57"),("2021-02-03 23:17:23"),("2020-09-01 19:47:04"),("2021-02-04 20:40:22"),("2020-05-06 04:52:21"),("2020-10-28 21:39:06"),("2020-08-07 15:35:09"),("2020-10-04 06:48:45"),("2020-11-26 13:40:06"),("2020-08-14 23:14:31"),("2021-02-18 17:20:50"),("2020-06-30 01:58:31"),("2021-02-07 19:57:22"),("2020-09-10 10:52:59"),("2020-04-06 03:01:24"),("2021-03-10 13:42:56"),("2020-10-21 04:06:25"),("2020-03-30 13:33:53"),("2020-04-16 12:23:50"),("2020-06-15 09:06:20"),("2020-10-29 13:49:24"),("2021-02-27 21:28:21"),("2020-11-27 12:16:20"),("2021-03-06 18:34:09"),("2021-02-06 11:05:34"),("2020-08-01 18:28:57"),("2020-11-06 23:50:31"),("2020-11-12 11:46:11"),("2020-11-29 08:51:49"),("2021-01-23 05:30:28"),("2020-06-14 07:16:09"),("2020-05-18 21:21:58"),("2021-01-26 08:17:27"),("2020-10-11 12:38:15"),("2020-12-25 11:17:20"),("2020-08-31 11:50:44"),("2020-10-01 14:45:55"),("2020-03-26 14:24:49"),("2020-06-29 19:31:07"),("2021-01-21 20:26:46"),("2021-01-09 20:40:21"),("2020-09-19 22:50:24"),("2021-01-06 09:01:10"),("2020-10-01 08:14:42"),("2021-01-13 16:37:01"),("2021-01-08 02:01:30"),("2021-02-19 21:02:41"),("2021-02-14 14:07:52"),("2020-08-22 19:38:08"),("2020-03-23 00:24:04"),("2020-09-12 00:29:18"),("2020-12-21 18:02:40"),("2021-02-14 12:37:10"),("2021-01-03 22:21:42"),("2020-11-20 01:47:10"),("2020-11-11 01:19:38"),("2020-05-08 23:31:29"),("2020-06-17 00:37:10"),("2020-11-14 15:03:15"),("2021-02-23 07:32:35"),("2021-02-25 18:23:54"),("2020-09-06 20:11:04"),("2020-05-05 19:13:57"),("2020-05-10 14:09:12"),("2021-02-02 22:32:02"),("2020-11-19 05:22:09"),("2020-05-17 01:10:09"),("2020-11-26 22:58:47"),("2020-08-16 03:27:48"),("2020-04-22 05:32:26"),("2020-05-29 13:40:56"),("2020-04-03 06:44:26"),("2020-04-13 13:36:11"),("2020-05-22 13:36:32"),("2020-10-01 22:06:43"),("2020-12-23 07:16:07"),("2021-01-09 02:17:38");
+
+  SET i = i + 1;
+
+  END WHILE;
+
+END$$
+
+DELIMITER ;
+
+ 
+
+CALL generate_orders();  
+
+ 
+
+/* Populate user_address*/
+
+INSERT INTO user_address (user_id, address_id, order_id)
+
+SELECT u.user_id, a.address_id, o.order_id
+
+FROM users u
+
+INNER JOIN address a ON u.user_id = a.address_id
+
+INNER JOIN orders o ON a.address_id  = o.order_id;
+
+ 
+
+ 
+
+/* Creating a VIEW to summarize orders by address */
+
+DROP VIEW IF EXISTS order_list;
+
+CREATE VIEW order_list
+
+AS
+
+SELECT 
+
+  o.order_id AS ID,
+
+  a.b_address AS billing_address,
+
+  a.s_address AS shipping_address,
+
+  u.email AS email_address
+
+FROM orders o 
+
+  JOIN address AS a ON o.order_id = a.address_id
+
+  JOIN users AS u ON o.order_id = u.user_id
+
+ORDER BY s_address;
+
+ 
+
+SELECT * FROM order_list;
+
+ 
+
+ 
+
+/*Creating a VIEW to summarize orders by user */
+
+CREATE VIEW order_list_by_user
+
+AS
+
+SELECT 
+
+  o.order_id AS ID,
+
+  u.email AS email_address,
+
+  u.user_id AS users,
+
+  a.b_address AS billing_address,
+
+  a.s_address AS shipping_address
+
+FROM orders o 
+
+  JOIN address AS a ON o.order_id = a.address_id
+
+  JOIN users AS u ON o.order_id = u.user_id
+
+ORDER BY u.user_id;
+
+ 
+
+SELECT * FROM order_list_by_user;
+
+ 
+
+/* Counting how many users have nicknames */
+
+SELECT COUNT(*) 
+
+FROM users
+
+WHERE nickname IS NOT NULL;
+
+ 
+
+3. Timings:
+
+CALL generate_users()        35.5505 seconds
+
+CALL generate_address()     17.8252 seconds
+
+CALL generate_orders()        16.1533 seconds
+
+Query Populating user_address       255.0991 sec
+
+Summarize orders by address.         5.0172 sec
+
+Summarize orders by user.               0.0016 sec
+
+Nickname.                                         0.001 sec
+
+ 
+
+# 4. I believe although stored procedure played with huge amount of data unlike INSERT and SELECT statement, it was relatively faster.I also noticed SELECT * will taker longer time to process than SELECT <columname>.
+
+# 5.  I recommend using procedure and function instead of INSERT and SELECT statements and try avoiding SELECT*.
+
+ 
